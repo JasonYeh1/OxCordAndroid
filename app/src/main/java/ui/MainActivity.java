@@ -3,9 +3,11 @@ package ui;
 import androidx.appcompat.app.AppCompatActivity;
 import api.ApiRequest;
 import api.ApiService;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okio.BufferedSink;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,10 +27,14 @@ import com.example.oxcord.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
     private Button createRoomButton;
     private Button joinRoomButton;
     private ApiRequest apiRequest;
+
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         setOnClickListeners();
         apiRequest = ApiService.getApiInterface();
-
-        JSONObject pin = new JSONObject();
-        JSONObject request = new JSONObject();
-
-//        try {
-//            pin.put("pin", 1111);
-//            request.put("query", pin);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        RequestBody body = RequestBody.create(MediaType.parse("application/json"), request.toString());
 
         Call<ResponseBody> call = apiRequest.checkRoomExists(1111);
         call.enqueue(new Callback<ResponseBody>() {
@@ -75,39 +70,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url ="https://www.google.com";
-//
-//
-//        StringRequest stringRequest= new StringRequest(Request.Method.GET, "http://oxcordplayer.com/dbController/doesRoomExist", new com.android.volley.Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    JSONObject JSONResponse = new JSONObject(response);
-//                    Log.d("HELLO", JSONResponse.toString());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new com.android.volley.Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//                Log.d("HELLO", error.toString());
-//
-//            }
-//        });
-//        queue.add(stringRequest);
+        JSONObject pin = new JSONObject();
+        try {
+            pin.put("pin", 1111);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("HELLO", pin.toString());
+        RequestBody body = RequestBody.create(JSON, pin.toString());
+        Call<ResponseBody> deleteRoomCall = apiRequest.deleteRoom(body);
+        deleteRoomCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    try {
+                        JSONObject json = new JSONObject(response.body().string());
+                        Log.d("HELLO", json.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("HELLO", "FAIL");
+                Log.d("HELLO", t.toString());
+            }
+        });
     }
 
     private void setOnClickListeners() {
         createRoomButton.setOnClickListener(View -> {
-            Toast.makeText(this, "Create Room Clicked", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Create Room Clicked", Toast.LENGTH_SHORT).show();
         });
 
         joinRoomButton.setOnClickListener(View -> {
-            Toast.makeText(this, "Join Room Clicked", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Join Room Clicked", Toast.LENGTH_SHORT).show();
         });
     }
 }
