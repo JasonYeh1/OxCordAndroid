@@ -6,24 +6,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.oxcord.R;
+import com.jakewharton.rxbinding4.view.RxView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import api.ApiRequest;
 import api.ApiService;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-import model.Song;
+import kotlin.Unit;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -72,77 +65,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        JSONObject pin = new JSONObject();
-//        try {
-//            pin.put("pin", 1111);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        Log.d("HELLO", pin.toString());
-//        RequestBody body = RequestBody.create(JSON, pin.toString());
-//        Call<ResponseBody> deleteRoomCall = apiRequest.deleteRoom(body);
-//        deleteRoomCall.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                if(response.isSuccessful()) {
-//                    try {
-//                        JSONObject json = new JSONObject(response.body().string());
-//                        Log.d("deleteRoom", json.toString());
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Log.d("deleteRoom", "FAIL");
-//                Log.d("deleteRoom", t.toString());
-//            }
-//        });
-    }
-
-    private void setOnClickListeners() {
-//        createRoomButton.setOnClickListener(View -> {
-////            Toast.makeText(this, "Create Room Clicked", Toast.LENGTH_SHORT).show();
-//            JSONObject pin = new JSONObject();
-//            try {
-//                pin.put("pin", 1111);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            Log.d("HELLO", pin.toString());
-//            RequestBody body = RequestBody.create(JSON, pin.toString());
-//            Call<ResponseBody> deleteRoomCall = apiRequest.deleteRoom(body);
-//            deleteRoomCall.enqueue(new Callback<ResponseBody>() {
-//                @Override
-//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                    if(response.isSuccessful()) {
-//                        try {
-//                            JSONObject json = new JSONObject(response.body().string());
-//                            Log.d("deleteRoom", json.toString());
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else {
-//                        Log.d("deleteRoom", response.toString());
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                    Log.d("deleteRoom", "FAIL");
-//                    Log.d("deleteRoom", t.toString());
-//                }
-//            });
-//        });
-//
-//        joinRoomButton.setOnClickListener(View -> {
-//            Toast.makeText(this, "Join Room Clicked", Toast.LENGTH_SHORT).show();
-//        });
-
-        createRoomButton.setOnClickListener(View -> {
-//            Toast.makeText(this, "Create Room Clicked", Toast.LENGTH_SHORT).show();
+        Observable<Unit> createRoomObservable =  RxView.clicks(createRoomButton);
+        createRoomObservable.switchMap(action -> {
             JSONObject search = new JSONObject();
             try {
                 search.put("value", "wow");
@@ -151,32 +75,39 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.d("SEARCH", search.toString());
             RequestBody body = RequestBody.create(JSON, search.toString());
-            Observable<ResponseBody> searchYoutubeCall = apiRequest.searchYoutube(body);
-            searchYoutubeCall
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext(new Consumer<ResponseBody>() {
-                        @Override
-                        public void accept(ResponseBody responseBody) throws Throwable {
-                            try {
-                                JSONArray json = new JSONArray(responseBody.string());
-                                Log.d("SEARCH", json.toString());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+            return apiRequest.searchYoutube(body);
+        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::printResponse, this::onError);
+    }
 
-                        }
-                    }).doOnError(new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Throwable {
-                            Log.d("SEARCH", "ERROR");
-                        }
-                    })
-                    .subscribe();
-        });
+    private void setOnClickListeners() {
+//        joinRoomButton.setOnClickListener(View -> {
+//          JSONObject search = new JSONObject();
+//            try {
+//                search.put("value", "wow");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            Log.d("SEARCH", search.toString());
+//            RequestBody body = RequestBody.create(JSON, search.toString());
+//            Observable<ResponseBody> searchRequest = apiRequest.searchYoutube(body);
+//            searchRequest
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(this::printResponse, this::onError);
+//        });
+    }
 
-        joinRoomButton.setOnClickListener(View -> {
-            Toast.makeText(this, "Join Room Clicked", Toast.LENGTH_SHORT).show();
-        });
+    private void printResponse(ResponseBody response) {
+        try {
+            JSONArray json = new JSONArray(response.string());
+            Log.d("SEARCH", json.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void onError(Throwable throwable) {
+        throwable.printStackTrace();
     }
 }
