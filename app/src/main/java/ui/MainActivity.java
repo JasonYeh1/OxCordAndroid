@@ -1,29 +1,13 @@
 package ui;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.oxcord.R;
-import com.jakewharton.rxbinding4.view.RxView;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import api.ApiRequest;
 import api.ApiService;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import kotlin.Unit;
 import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
     private ApiRequest apiRequest;
@@ -70,8 +54,4 @@ public class MainActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 //    }
-
-    private void onError(Throwable throwable) {
-        throwable.printStackTrace();
-    }
 }

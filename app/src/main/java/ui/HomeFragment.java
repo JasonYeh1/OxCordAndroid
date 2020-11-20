@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import kotlin.Unit;
+import ui.guest.JoinFragment;
 import ui.host.HostFragment;
 
 public class HomeFragment extends Fragment {
@@ -26,21 +27,19 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = getLayoutInflater().inflate(R.layout.home_fragment, container, false);
+        View view = inflater.inflate(R.layout.home_fragment, container, false);
         createRoomButton = view.findViewById(R.id.createRoom);
         joinRoomButton = view.findViewById(R.id.joinRoom);
-        joinRoomButton.setVisibility(View.GONE);
         parent = container;
-        setSubscribers();
+        setSubscriptions();
         return view;
     }
 
-    private void setSubscribers() {
+    private void setSubscriptions() {
         Observable<Unit> createRoomObservable = RxView.clicks(createRoomButton);
         createRoomObservable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(event -> {
-                    Toast.makeText(getContext(), "Create room clicked", Toast.LENGTH_SHORT).show();
                     HostFragment hostFragment = new HostFragment();
                     getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, hostFragment).addToBackStack("test").commit();
                 });
@@ -56,5 +55,13 @@ public class HomeFragment extends Fragment {
 //            return apiRequest.searchYoutube(body);
 //        }).observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(this::printResponse, this::onError);
+
+        Observable<Unit> joinRoomObservable = RxView.clicks(joinRoomButton);
+        joinRoomObservable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(event -> {
+                    JoinFragment joinFragment = new JoinFragment();
+                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, joinFragment).addToBackStack("test").commit();
+                });
     }
 }

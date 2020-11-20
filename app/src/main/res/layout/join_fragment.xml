@@ -16,7 +16,8 @@
         android:background="@color/white"
         android:hint="####"
         android:textSize="30dp"
-        android:textAlignment="center">
+        android:textAlignment="center"
+        android:maxLength="4">
     </EditText>
 
     <Button
