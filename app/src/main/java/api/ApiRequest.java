@@ -4,11 +4,12 @@ import android.util.JsonReader;
 
 import org.json.JSONObject;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
@@ -29,7 +30,8 @@ public interface ApiRequest {
     @GET("dbController/doesRoomExist")
     Call<ResponseBody> checkRoomExists(@Query("pin") int pin);
 
+    //This endpoint should be paired with RxJava
     @Headers({"Content-Type: application/json"})
     @POST("searchController/search")
-    Call<ResponseBody> searchYoutube(@Body RequestBody request);
+    Observable<ResponseBody> searchYoutube(@Body RequestBody request);
 }
