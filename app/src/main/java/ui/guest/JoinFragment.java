@@ -51,7 +51,7 @@ public class JoinFragment extends Fragment {
 
         RxView.clicks(joinButton)
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(e -> Integer.parseInt(pinEditText.getText().toString()))
+                .map(event -> Integer.parseInt(pinEditText.getText().toString()))
                 .switchMap(pin -> apiRequest.checkRoomExists(pin))
                 .subscribe(this::printResponse);
     }
