@@ -1,14 +1,8 @@
-package api;
-
-import android.util.JsonReader;
-
-import org.json.JSONObject;
+package com.example.oxcord.api;
 
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Single;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;

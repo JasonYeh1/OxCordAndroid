@@ -1,4 +1,4 @@
-package model;
+package com.example.oxcord.model;
 
 public class Song {
     private String title;

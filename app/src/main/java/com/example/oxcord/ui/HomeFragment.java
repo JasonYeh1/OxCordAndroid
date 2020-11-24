@@ -1,11 +1,10 @@
-package ui;
+package com.example.oxcord.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.oxcord.R;
 import com.jakewharton.rxbinding4.view.RxView;
@@ -16,8 +15,8 @@ import androidx.fragment.app.Fragment;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import kotlin.Unit;
-import ui.guest.JoinFragment;
-import ui.host.HostFragment;
+import com.example.oxcord.ui.guest.JoinFragment;
+import com.example.oxcord.ui.host.HostFragment;
 
 public class HomeFragment extends Fragment {
     private Button createRoomButton;

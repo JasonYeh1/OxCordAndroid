@@ -1,4 +1,4 @@
-package ui.guest;
+package com.example.oxcord.ui.guest;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,8 +18,8 @@ import org.json.JSONObject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import api.ApiRequest;
-import api.ApiService;
+import com.example.oxcord.api.ApiRequest;
+import com.example.oxcord.api.ApiService;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.ResponseBody;

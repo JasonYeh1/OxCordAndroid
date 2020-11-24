@@ -1,4 +1,4 @@
-package ui.host;
+package com.example.oxcord.ui.host;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,12 +1,12 @@
-package ui;
+package com.example.oxcord.ui;
 
 import android.os.Bundle;
 
 import com.example.oxcord.R;
 
 import androidx.appcompat.app.AppCompatActivity;
-import api.ApiRequest;
-import api.ApiService;
+import com.example.oxcord.api.ApiRequest;
+import com.example.oxcord.api.ApiService;
 import okhttp3.MediaType;
 
 public class MainActivity extends AppCompatActivity {
