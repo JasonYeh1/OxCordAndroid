@@ -20,15 +20,15 @@ public interface ApiRequest {
 
     @Headers({"Content-Type: application/json"})
     @POST("dbController/createRoom")
-    Call<ResponseBody> createRoom(@Body RequestBody request);
+    Observable<ResponseBody> createRoom(@Body RequestBody request);
 
     @Headers({"Content-Type: application/json"})
     @HTTP(method = "DELETE", path = "dbController/deleteRoom", hasBody = true)
-    Call<ResponseBody> deleteRoom(@Body RequestBody request);
+    Observable<ResponseBody> deleteRoom(@Body RequestBody request);
 
     @Headers({"Content-Type: application/json"})
     @GET("dbController/doesRoomExist")
-    Call<ResponseBody> checkRoomExists(@Query("pin") int pin);
+    Observable<ResponseBody> checkRoomExists(@Query("pin") int pin);
 
     //This endpoint should be paired with RxJava
     @Headers({"Content-Type: application/json"})
