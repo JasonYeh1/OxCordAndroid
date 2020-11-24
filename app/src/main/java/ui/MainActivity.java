@@ -5,12 +5,9 @@ import android.os.Bundle;
 import com.example.oxcord.R;
 
 import androidx.appcompat.app.AppCompatActivity;
-import api.ApiRequest;
-import api.ApiService;
 import okhttp3.MediaType;
 
 public class MainActivity extends AppCompatActivity {
-    private ApiRequest apiRequest;
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -19,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        apiRequest = ApiService.getApiInterface();
         HomeFragment homeFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment).commit();
 

@@ -15,6 +15,8 @@ import com.jakewharton.rxbinding4.widget.RxTextView;
 
 import org.json.JSONObject;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -27,7 +29,8 @@ import okhttp3.ResponseBody;
 public class JoinFragment extends Fragment {
     private Button joinButton;
     private EditText pinEditText;
-    private ApiRequest apiRequest;
+    @Inject
+    ApiRequest apiRequest;
 
     @Nullable
     @Override
